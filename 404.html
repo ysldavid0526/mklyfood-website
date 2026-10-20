@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>頁面已搬家｜麥可利 Mikely foods</title>
+<script>
+// 舊網站（PHP）網址 → 新網站頁面。GitHub Pages 不支援 .htaccess，改在 404 頁轉址。
+(function () {
+  var base = location.hostname.indexOf('github.io') > -1 ? '/' + location.pathname.split('/')[1] + '/' : '/';
+  var p = location.pathname.toLowerCase(), q = location.search.toLowerCase();
+  var has = function (k) { return new RegExp('[?&]' + k + '(&|$)').test(q); };
+  var en = has('lang=en') ? 'en/' : '';
+  var to = null;
+  if (/index\.php$/.test(p)) to = en + 'index.html';
+  else if (/article\.php$/.test(p)) to = en ? 'en/about.html' : has('tb=1') ? 'about.html' : has('tb=2') ? 'faq.html' : 'knowledge.html';
+  else if (/eforms\.php$/.test(p)) to = en + 'contact.html';
+  else if (/product_d\.php$/.test(p)) to = en ? 'en/products.html' : has('id=311') ? 'raw-soymilk.html' : 'products.html';
+  else if (/product\.php$/.test(p)) to = en ? 'en/products.html' : has('cid=2') ? 'pancakes.html' : 'products.html';
+  else if (/(shopping|member_[a-z_]+|cart|order[a-z_]*)\.php$/.test(p)) to = 'contact.html';
+  else if (/\.aspx$/.test(p)) to = /06-products/.test(p) ? 'products.html' : 'index.html';
+  if (to) location.replace(base + to);
+  window.__home = base + 'index.html';
+})();
+</script>
+<style>
+  body { margin: 0; font-family: "Noto Sans TC", -apple-system, "PingFang TC", sans-serif; background: #faf7f2; color: #3e3129; display: grid; place-items: center; min-height: 100vh; padding: 24px; text-align: center; }
+  .bean { width: 72px; height: 48px; border-radius: 50%; background: #ffe009; transform: rotate(-20deg); margin: 0 auto 20px; }
+  a { display: inline-block; margin-top: 16px; background: #614e40; color: #fff; padding: 12px 24px; border-radius: 999px; text-decoration: none; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div>
+    <div class="bean"></div>
+    <h1>找不到這個頁面</h1>
+    <p>麥可利網站已經改版，這個頁面可能已經搬家了。</p>
+    <a id="home" href="/">回到首頁</a>
+  </div>
+  <script>document.getElementById('home').href = window.__home;</script>
+</body>
+</html>
