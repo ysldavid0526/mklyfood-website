@@ -365,3 +365,5 @@ html[lang="en"] .hero-title span { white-space: normal; }
 .hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; overflow: hidden; }
 .form { position: relative; }
 .form button[disabled] { opacity: .6; cursor: wait; }
+.spec.facts th { width: 28%; }
+@media (max-width: 620px) { .spec.facts th { width: 34%; } }
