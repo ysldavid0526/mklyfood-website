@@ -7,42 +7,66 @@ document.querySelectorAll('.nav-toggle').forEach(function (btn) {
   });
 });
 
-// 詢價表單：目前沒有後端，送出時開啟 Email 並帶入填寫內容
+// 詢價表單
+// FORM_ENDPOINT 填入 Google Apps Script 部署網址後，詢價會直接寄出美化版 Email 並記錄到試算表；
+// 還沒設定時，退回「開啟客戶的 Email 程式」的做法。
+var FORM_ENDPOINT = '';
+
 var form = document.getElementById('inquiry-form');
 if (form) {
+  var openedAt = Date.now();
+  var show = function (id) {
+    ['form-done', 'form-mail', 'form-error'].forEach(function (x) {
+      var el = document.getElementById(x); if (el) el.hidden = x !== id;
+    });
+  };
+  var mailtoFallback = function (d, lang) {
+    var zh = lang === 'zh';
+    var L = zh
+      ? ['店名／公司：', '聯絡人：', '電話：', 'Email：', '地區：', '店型：', '每日豆漿用量：', '有興趣的產品：', '需要試用品：', '其他說明：']
+      : ['Company: ', 'Contact: ', 'Phone: ', 'Email: ', 'Country: ', 'Business type: ', 'Estimated volume: ', 'Products: ', 'Samples: ', 'Message:'];
+    var lines = [
+      L[0] + d.get('shop'), L[1] + d.get('name'), L[2] + (d.get('phone') || ''), L[3] + (d.get('email') || ''),
+      L[4] + d.get('area'), L[5] + d.get('type'), L[6] + d.get('volume'),
+      L[7] + d.getAll('product').join(zh ? '、' : ', '), L[8] + (d.get('sample') ? (zh ? '是' : 'Yes') : (zh ? '否' : 'No')),
+      '', L[9], d.get('message') || ''
+    ];
+    var subject = (zh ? '【網站詢價】' : '[Website inquiry] ') + d.get('shop') + '（' + d.get('area') + '）';
+    window.location.href = 'mailto:mkly@mklyfood.com?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(lines.join('\n'));
+    show('form-mail');
+  };
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var d = new FormData(form);
-    if (form.dataset.lang) {
-      var en = [
-        'Company: ' + d.get('shop'), 'Contact: ' + d.get('name'), 'Email / Phone: ' + d.get('phone'),
-        'Country: ' + d.get('area'), 'Business type: ' + d.get('type'), 'Estimated volume: ' + d.get('volume'),
-        'Products: ' + d.getAll('product').join(', '), 'Samples: ' + (d.get('sample') ? 'Yes' : 'No'),
-        '', 'Message:', d.get('message') || ''
-      ];
-      window.location.href = 'mailto:mkly@mklyfood.com?subject=' +
-        encodeURIComponent('[Website inquiry] ' + d.get('shop') + ' (' + d.get('area') + ')') +
-        '&body=' + encodeURIComponent(en.join('\n'));
-      document.getElementById('form-done').hidden = false;
-      return;
-    }
-    var lines = [
-      '店名／公司：' + d.get('shop'),
-      '聯絡人：' + d.get('name'),
-      '電話：' + d.get('phone'),
-      '地區：' + d.get('area'),
-      '店型：' + d.get('type'),
-      '每日豆漿用量：' + d.get('volume'),
-      '有興趣的產品：' + d.getAll('product').join('、'),
-      '需要試用品：' + (d.get('sample') ? '是' : '否'),
-      '',
-      '其他說明：',
-      d.get('message') || ''
-    ];
-    var subject = '【網站詢價】' + d.get('shop') + '（' + d.get('area') + '）';
-    window.location.href = 'mailto:mkly@mklyfood.com?subject=' +
-      encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
-    document.getElementById('form-done').hidden = false;
+    var lang = form.dataset.lang || 'zh';
+    if (!FORM_ENDPOINT) { mailtoFallback(d, lang); return; }
+
+    var body = new URLSearchParams();
+    ['shop', 'name', 'phone', 'email', 'area', 'type', 'volume', 'message', 'website'].forEach(function (k) {
+      body.append(k, d.get(k) || '');
+    });
+    body.append('products', d.getAll('product').join('、'));
+    body.append('sample', d.get('sample') ? 'yes' : '');
+    body.append('lang', lang);
+    body.append('page', location.href);
+    body.append('elapsed', String(Date.now() - openedAt));
+
+    var btn = form.querySelector('button[type=submit]');
+    var label = btn.textContent;
+    btn.disabled = true; btn.textContent = btn.dataset.sending || '…';
+    fetch(FORM_ENDPOINT, { method: 'POST', body: body })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.error || 'failed');
+        form.querySelectorAll('input, select, textarea').forEach(function (el) {
+          if (el.type === 'checkbox') el.checked = false; else if (el.tagName !== 'SELECT') el.value = '';
+        });
+        show('form-done');
+      })
+      .catch(function () { show('form-error'); })
+      .then(function () { btn.disabled = false; btn.textContent = label; });
   });
 }
 

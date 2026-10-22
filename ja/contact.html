@@ -50,15 +50,17 @@
 <section class="section"><div class="container split" style="align-items:start">
   <div class="card">
     <h2 style="font-size:26px">お問い合わせフォーム</h2>
-    <form class="form" id="inquiry-form" data-lang="intl">
+    <form class="form" id="inquiry-form" data-lang="ja">
       <div class="row">
         <div><label for="shop">会社名 <span class="req">*</span></label><input id="shop" name="shop" required></div>
         <div><label for="name">ご担当者名 <span class="req">*</span></label><input id="name" name="name" required></div>
       </div>
       <div class="row">
-        <div><label for="phone">メール／電話 <span class="req">*</span></label><input id="phone" name="phone" required></div>
-        <div><label for="area">国・地域 <span class="req">*</span></label><input id="area" name="area" placeholder="例：日本" required></div>
+        <div><label for="email">Email <span class="req">*</span></label><input id="email" name="email" type="email" required></div>
+        <div><label for="phone">電話番号</label><input id="phone" name="phone" type="tel"></div>
       </div>
+      <div><label for="area">国・地域 <span class="req">*</span></label><input id="area" name="area" placeholder="例：日本" required></div>
+      <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
       <div class="row">
         <div><label for="type">業種</label><select id="type" name="type"><option>輸入商社・卸売</option><option>スーパー・量販店</option><option>飲食店・カフェ・ティーショップ</option><option>給食・セントラルキッチン</option><option>その他</option></select></div>
         <div><label for="volume">想定数量</label><input id="volume" name="volume" placeholder="例：20ftリーファー1本／月"></div>
@@ -66,8 +68,10 @@
       <div><label>ご興味のある製品</label><label style="font-weight:400"><input type="checkbox" name="product" value="生豆乳（加糖）"> 生豆乳（加糖）</label><label style="font-weight:400"><input type="checkbox" name="product" value="生豆乳（無糖）"> 生豆乳（無糖）</label><label style="font-weight:400"><input type="checkbox" name="product" value="黒豆豆乳"> 黒豆豆乳</label><label style="font-weight:400"><input type="checkbox" name="product" value="ライスミルク"> ライスミルク</label><label style="font-weight:400"><input type="checkbox" name="product" value="ネギパイ・おやき"> ネギパイ・おやき</label></div>
       <label style="font-weight:400"><input type="checkbox" name="sample" value="yes"> サンプルを希望する</label>
       <div><label for="message">メッセージ</label><textarea id="message" name="message"></textarea></div>
-      <button class="btn btn-primary" type="submit">送信する</button>
-      <p id="form-done" hidden class="notice">メールアプリが開きました。送信ボタンを押して完了してください。開かない場合は mkly@mklyfood.com へ直接ご連絡ください。</p>
+      <button class="btn btn-primary" type="submit" data-sending="…">送信する</button>
+      <p id="form-done" hidden class="notice"><strong>お問い合わせありがとうございます。</strong><br>1〜2営業日以内に担当者よりご連絡いたします。</p>
+      <p id="form-mail" hidden class="notice">メールアプリが開きました。送信ボタンを押して完了してください。開かない場合は mkly@mklyfood.com へ直接ご連絡ください。</p>
+      <p id="form-error" hidden class="notice">送信できませんでした。時間をおいて再度お試しいただくか、mkly@mklyfood.com へ直接ご連絡ください。</p>
     </form>
   </div>
   <div>

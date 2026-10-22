@@ -50,15 +50,17 @@
 <section class="section"><div class="container split" style="align-items:start">
   <div class="card">
     <h2 style="font-size:26px">문의 양식</h2>
-    <form class="form" id="inquiry-form" data-lang="intl">
+    <form class="form" id="inquiry-form" data-lang="ko">
       <div class="row">
         <div><label for="shop">회사명 <span class="req">*</span></label><input id="shop" name="shop" required></div>
         <div><label for="name">담당자명 <span class="req">*</span></label><input id="name" name="name" required></div>
       </div>
       <div class="row">
-        <div><label for="phone">이메일／전화 <span class="req">*</span></label><input id="phone" name="phone" required></div>
-        <div><label for="area">국가・지역 <span class="req">*</span></label><input id="area" name="area" placeholder="예: 한국" required></div>
+        <div><label for="email">Email <span class="req">*</span></label><input id="email" name="email" type="email" required></div>
+        <div><label for="phone">전화번호</label><input id="phone" name="phone" type="tel"></div>
       </div>
+      <div><label for="area">국가・지역 <span class="req">*</span></label><input id="area" name="area" placeholder="예: 한국" required></div>
+      <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
       <div class="row">
         <div><label for="type">업종</label><select id="type" name="type"><option>수입사・유통사</option><option>마트・대형 유통</option><option>음식점・카페・티 전문점</option><option>단체급식・센트럴 키친</option><option>기타</option></select></div>
         <div><label for="volume">예상 물량</label><input id="volume" name="volume" placeholder="예: 20ft 냉동 컨테이너 1대／월"></div>
@@ -66,8 +68,10 @@
       <div><label>관심 제품</label><label style="font-weight:400"><input type="checkbox" name="product" value="생두유 (가당)"> 생두유 (가당)</label><label style="font-weight:400"><input type="checkbox" name="product" value="생두유 (무가당)"> 생두유 (무가당)</label><label style="font-weight:400"><input type="checkbox" name="product" value="검은콩 두유"> 검은콩 두유</label><label style="font-weight:400"><input type="checkbox" name="product" value="쌀 음료"> 쌀 음료</label><label style="font-weight:400"><input type="checkbox" name="product" value="총좌빙・파이"> 총좌빙・파이</label></div>
       <label style="font-weight:400"><input type="checkbox" name="sample" value="yes"> 샘플을 희망합니다</label>
       <div><label for="message">메시지</label><textarea id="message" name="message"></textarea></div>
-      <button class="btn btn-primary" type="submit">문의 보내기</button>
-      <p id="form-done" hidden class="notice">이메일 앱이 열렸습니다. 보내기 버튼을 눌러 문의를 완료해 주세요. 열리지 않으면 mkly@mklyfood.com으로 직접 연락해 주세요.</p>
+      <button class="btn btn-primary" type="submit" data-sending="…">문의 보내기</button>
+      <p id="form-done" hidden class="notice"><strong>문의해 주셔서 감사합니다.</strong><br>영업일 기준 1~2일 이내에 담당자가 연락드리겠습니다.</p>
+      <p id="form-mail" hidden class="notice">이메일 앱이 열렸습니다. 보내기 버튼을 눌러 문의를 완료해 주세요. 열리지 않으면 mkly@mklyfood.com으로 직접 연락해 주세요.</p>
+      <p id="form-error" hidden class="notice">전송에 실패했습니다. 잠시 후 다시 시도하시거나 mkly@mklyfood.com으로 직접 연락해 주세요.</p>
     </form>
   </div>
   <div>

@@ -50,15 +50,17 @@
 <section class="section"><div class="container split" style="align-items:start">
   <div class="card">
     <h2 style="font-size:26px">Inquiry form</h2>
-    <form class="form" id="inquiry-form" data-lang="intl">
+    <form class="form" id="inquiry-form" data-lang="en">
       <div class="row">
         <div><label for="shop">Company <span class="req">*</span></label><input id="shop" name="shop" required></div>
         <div><label for="name">Contact name <span class="req">*</span></label><input id="name" name="name" required></div>
       </div>
       <div class="row">
-        <div><label for="phone">Email / Phone <span class="req">*</span></label><input id="phone" name="phone" required></div>
-        <div><label for="area">Country / Region <span class="req">*</span></label><input id="area" name="area" placeholder="e.g. Malaysia" required></div>
+        <div><label for="email">Email <span class="req">*</span></label><input id="email" name="email" type="email" required></div>
+        <div><label for="phone">Phone / WhatsApp</label><input id="phone" name="phone" type="tel"></div>
       </div>
+      <div><label for="area">Country / Region <span class="req">*</span></label><input id="area" name="area" placeholder="e.g. Malaysia" required></div>
+      <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
       <div class="row">
         <div><label for="type">Business type</label><select id="type" name="type"><option>Importer / Distributor</option><option>Supermarket / Grocery chain</option><option>Restaurant / Café / Tea shop</option><option>Food service / Central kitchen</option><option>Other</option></select></div>
         <div><label for="volume">Estimated volume</label><input id="volume" name="volume" placeholder="e.g. 1 x 20ft reefer / month"></div>
@@ -66,8 +68,10 @@
       <div><label>Products of interest</label><label style="font-weight:400"><input type="checkbox" name="product" value="Raw soy milk (sweetened)"> Raw soy milk (sweetened)</label><label style="font-weight:400"><input type="checkbox" name="product" value="Raw soy milk (unsweetened)"> Raw soy milk (unsweetened)</label><label style="font-weight:400"><input type="checkbox" name="product" value="Black soy milk"> Black soy milk</label><label style="font-weight:400"><input type="checkbox" name="product" value="Rice milk"> Rice milk</label><label style="font-weight:400"><input type="checkbox" name="product" value="Scallion pancakes / pies"> Scallion pancakes / pies</label></div>
       <label style="font-weight:400"><input type="checkbox" name="sample" value="yes"> I would like samples</label>
       <div><label for="message">Message</label><textarea id="message" name="message"></textarea></div>
-      <button class="btn btn-primary" type="submit">Send inquiry</button>
-      <p id="form-done" hidden class="notice">Your email app has opened. Please press Send to complete your inquiry. If nothing opened, email us directly at mkly@mklyfood.com.</p>
+      <button class="btn btn-primary" type="submit" data-sending="…">Send inquiry</button>
+      <p id="form-done" hidden class="notice"><strong>Thank you! We have received your inquiry.</strong><br>Our sales team will reply within 1–2 business days.</p>
+      <p id="form-mail" hidden class="notice">Your email app has opened. Please press Send to complete your inquiry. If nothing opened, email us directly at mkly@mklyfood.com.</p>
+      <p id="form-error" hidden class="notice">Sending failed. Please try again, or email us directly at mkly@mklyfood.com.</p>
     </form>
   </div>
   <div>

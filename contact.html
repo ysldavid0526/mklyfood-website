@@ -51,15 +51,17 @@
 <section class="section"><div class="container split" style="align-items:start">
   <div class="card">
     <h2 style="font-size:26px">詢價表單</h2>
-    <form class="form" id="inquiry-form">
+    <form class="form" id="inquiry-form" data-lang="zh">
       <div class="row">
         <div><label for="shop">店名／公司 <span class="req">*</span></label><input id="shop" name="shop" required></div>
         <div><label for="name">聯絡人 <span class="req">*</span></label><input id="name" name="name" required></div>
       </div>
       <div class="row">
         <div><label for="phone">電話 <span class="req">*</span></label><input id="phone" name="phone" type="tel" required></div>
-        <div><label for="area">所在縣市 <span class="req">*</span></label><input id="area" name="area" placeholder="例：台中市北屯區" required></div>
+        <div><label for="email">Email</label><input id="email" name="email" type="email" placeholder="方便業務回信（選填）"></div>
       </div>
+      <div><label for="area">所在縣市 <span class="req">*</span></label><input id="area" name="area" placeholder="例：台中市北屯區" required></div>
+      <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" tabindex="-1" autocomplete="off"></div>
       <div class="row">
         <div><label for="type">店型</label>
           <select id="type" name="type"><option>中式早餐店</option><option>西式早餐店</option><option>連鎖餐飲</option><option>飲料店／豆漿專賣</option><option>團膳／學校／機關</option><option>經銷商</option><option>其他</option></select></div>
@@ -75,8 +77,10 @@
       </div>
       <label style="font-weight:400"><input type="checkbox" name="sample" value="yes" style="width:auto"> 我想索取試用品</label>
       <div><label for="message">其他說明</label><textarea id="message" name="message"></textarea></div>
-      <button class="btn btn-primary" type="submit">送出詢價</button>
-      <p id="form-done" hidden class="notice">已開啟您的 Email 程式，請按「傳送」完成詢價。若沒有跳出，請直接加 LINE：mklfood01 或來電。</p>
+      <button class="btn btn-primary" type="submit" data-sending="送出中…">送出詢價</button>
+      <p id="form-done" hidden class="notice"><strong>已收到您的詢價，謝謝！</strong><br>業務會在 1～2 個工作天內與您聯絡。急件請直接加 LINE：mklfood01 或來電 04-2563-3579。</p>
+      <p id="form-mail" hidden class="notice">已開啟您的 Email 程式，請按「傳送」完成詢價。若沒有跳出，請直接加 LINE：mklfood01 或來電。</p>
+      <p id="form-error" hidden class="notice">送出失敗，請稍後再試，或直接加 LINE：mklfood01、來電 04-2563-3579。</p>
     </form>
   </div>
   <div>

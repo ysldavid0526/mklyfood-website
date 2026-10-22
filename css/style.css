@@ -360,3 +360,8 @@ html[lang="en"] .hero-title span { white-space: normal; }
   .lang-list { right: -48px; }
 }
 @media (max-width: 360px) { .lang-menu summary::after { content: ""; } }
+
+/* 防垃圾信隱藏欄位 */
+.hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; overflow: hidden; }
+.form { position: relative; }
+.form button[disabled] { opacity: .6; cursor: wait; }
