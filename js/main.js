@@ -32,7 +32,7 @@ if (form) {
       '', L[9], d.get('message') || ''
     ];
     var subject = (zh ? '【網站詢價】' : '[Website inquiry] ') + d.get('shop') + '（' + d.get('area') + '）';
-    window.location.href = 'mailto:mkly@mklyfood.com?subject=' + encodeURIComponent(subject) +
+    window.location.href = 'mailto:mklysale@mklyfood.com?subject=' + encodeURIComponent(subject) +
       '&body=' + encodeURIComponent(lines.join('\n'));
     show('form-mail');
   };
