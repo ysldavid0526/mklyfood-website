@@ -7,9 +7,10 @@ document.querySelectorAll('.nav-toggle').forEach(function (btn) {
   });
 });
 
-// 詢價表單
-// FORM_ENDPOINT 填入 Google Apps Script 部署網址後，詢價會直接寄出美化版 Email 並記錄到試算表；
-// 還沒設定時，退回「開啟客戶的 Email 程式」的做法。
+// 詢價表單：送出後自動寄到業務信箱，不會開啟客戶的 Email 程式
+// 預設用 FormSubmit 寄到 INQUIRY_TO；若之後裝好 Google Apps Script（有 logo 的美化信），
+// 把部署網址填進 FORM_ENDPOINT 就會改用它。
+var INQUIRY_TO = 'mklysale@mklyfood.com';
 var FORM_ENDPOINT = '';
 
 var form = document.getElementById('inquiry-form');
@@ -20,46 +21,64 @@ if (form) {
       var el = document.getElementById(x); if (el) el.hidden = x !== id;
     });
   };
-  var mailtoFallback = function (d, lang) {
-    var zh = lang === 'zh';
-    var L = zh
-      ? ['店名／公司：', '聯絡人：', '電話：', 'Email：', '地區：', '店型：', '每日豆漿用量：', '有興趣的產品：', '需要試用品：', '其他說明：']
-      : ['Company: ', 'Contact: ', 'Phone: ', 'Email: ', 'Country: ', 'Business type: ', 'Estimated volume: ', 'Products: ', 'Samples: ', 'Message:'];
-    var lines = [
-      L[0] + d.get('shop'), L[1] + d.get('name'), L[2] + (d.get('phone') || ''), L[3] + (d.get('email') || ''),
-      L[4] + d.get('area'), L[5] + d.get('type'), L[6] + d.get('volume'),
-      L[7] + d.getAll('product').join(zh ? '、' : ', '), L[8] + (d.get('sample') ? (zh ? '是' : 'Yes') : (zh ? '否' : 'No')),
-      '', L[9], d.get('message') || ''
-    ];
-    var subject = (zh ? '【網站詢價】' : '[Website inquiry] ') + d.get('shop') + '（' + d.get('area') + '）';
-    window.location.href = 'mailto:mklysale@mklyfood.com?subject=' + encodeURIComponent(subject) +
-      '&body=' + encodeURIComponent(lines.join('\n'));
-    show('form-mail');
+
+  var collect = function () {
+    var d = new FormData(form);
+    var lang = form.dataset.lang || 'zh';
+    var v = function (k) { return (d.get(k) || '').toString().trim(); };
+    return {
+      shop: v('shop'), name: v('name'), phone: v('phone'), email: v('email'), area: v('area'),
+      type: v('type'), volume: v('volume'), message: v('message'), website: v('website'),
+      products: d.getAll('product').join('、'), sample: d.get('sample') ? 'yes' : '',
+      lang: lang, page: location.href, elapsed: String(Date.now() - openedAt)
+    };
+  };
+
+  var LANG_LABEL = { zh: '繁體中文', en: 'English', ja: '日本語', ko: '한국어' };
+  var subjectOf = function (x) {
+    var s = '【網站詢價】' + [x.shop, x.area, x.type].filter(Boolean).join('｜');
+    if (x.sample) s = '🎁 要試用品 ' + s;
+    if (x.lang !== 'zh') s = '🌐 ' + LANG_LABEL[x.lang] + ' ' + s;
+    return s;
+  };
+
+  var sendAppsScript = function (x) {
+    var body = new URLSearchParams();
+    Object.keys(x).forEach(function (k) { body.append(k, x[k]); });
+    return fetch(FORM_ENDPOINT, { method: 'POST', body: body })
+      .then(function (r) { return r.json(); })
+      .then(function (res) { if (!res.ok) throw new Error(res.error || 'failed'); });
+  };
+
+  var sendFormSubmit = function (x) {
+    var payload = {
+      '店名／公司': x.shop, '聯絡人': x.name, '電話': x.phone, 'Email': x.email, '地區': x.area,
+      '店型': x.type, '每日用量': x.volume, '有興趣產品': x.products,
+      '試用品': x.sample ? '需要' : '不需要', '留言': x.message,
+      '網站語言': LANG_LABEL[x.lang], '來源頁面': x.page,
+      _subject: subjectOf(x), _template: 'table', _captcha: 'false', _honey: x.website
+    };
+    if (x.email) payload._replyto = x.email;
+    return fetch('https://formsubmit.co/ajax/' + INQUIRY_TO, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) { if (String(res.success) !== 'true') throw new Error(res.message || 'failed'); });
   };
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var d = new FormData(form);
-    var lang = form.dataset.lang || 'zh';
-    if (!FORM_ENDPOINT) { mailtoFallback(d, lang); return; }
-
-    var body = new URLSearchParams();
-    ['shop', 'name', 'phone', 'email', 'area', 'type', 'volume', 'message', 'website'].forEach(function (k) {
-      body.append(k, d.get(k) || '');
-    });
-    body.append('products', d.getAll('product').join('、'));
-    body.append('sample', d.get('sample') ? 'yes' : '');
-    body.append('lang', lang);
-    body.append('page', location.href);
-    body.append('elapsed', String(Date.now() - openedAt));
+    var x = collect();
+    // 防垃圾：隱藏欄位被填或 3 秒內送出，直接當作成功但不寄
+    if (x.website || Number(x.elapsed) < 3000) { show('form-done'); return; }
 
     var btn = form.querySelector('button[type=submit]');
     var label = btn.textContent;
     btn.disabled = true; btn.textContent = btn.dataset.sending || '…';
-    fetch(FORM_ENDPOINT, { method: 'POST', body: body })
-      .then(function (r) { return r.json(); })
-      .then(function (res) {
-        if (!res.ok) throw new Error(res.error || 'failed');
+    (FORM_ENDPOINT ? sendAppsScript(x) : sendFormSubmit(x))
+      .then(function () {
         form.querySelectorAll('input, select, textarea').forEach(function (el) {
           if (el.type === 'checkbox') el.checked = false; else if (el.tagName !== 'SELECT') el.value = '';
         });
