@@ -419,3 +419,26 @@ html[lang="en"] .hero-title span { white-space: normal; }
 .bonus a:hover { background: var(--yellow-soft); }
 .bonus b { display: block; color: var(--brown-dark); font-size: 16px; }
 .final-cta { background: var(--yellow-soft); }
+
+/* ===== 出口頁、規格表 ===== */
+.export-table td, .export-table th { padding: 12px 10px; font-size: 15px; }
+.export-table tr:first-child th { color: var(--brown-dark); font-weight: 700; background: var(--bg-warm); }
+.cert-mini { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.cert-mini li { padding-left: 26px; position: relative; color: var(--ink); }
+.cert-mini li::before { content: "✓"; position: absolute; left: 0; top: 2px; width: 18px; height: 18px; border-radius: 50%; background: var(--yellow); color: var(--brown-dark); font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; }
+.sheet-head { display: flex; align-items: center; gap: 24px; margin: 8px 0 20px; flex-wrap: wrap; }
+.sheet-logo { height: 70px; width: auto; }
+.sheet-head h1 { margin: 0; font-size: clamp(26px, 4vw, 38px); }
+.sheet-table td, .sheet-table th { font-size: 14px; padding: 10px 8px; }
+.sheet-table tr:first-child th { background: var(--bg-warm); color: var(--brown-dark); }
+@media print {
+  .site-header, .site-footer, .cta-band, .mobile-cta, .noprint { display: none !important; }
+  body { padding: 0 !important; font-size: 11pt; }
+  .section { padding: 0 !important; }
+  .container { max-width: none; padding: 0; }
+  .sheet-table td, .sheet-table th { font-size: 9.5pt; padding: 5px 6px; }
+  a { color: inherit; text-decoration: none; }
+}
+.sheet-table th, .export-table th, .article .spec tr:first-child th { width: auto; }
+.sheet-table td:first-child { font-weight: 700; color: var(--brown-dark); min-width: 160px; }
+.sheet-table td:last-child { min-width: 180px; }
