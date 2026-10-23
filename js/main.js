@@ -27,7 +27,8 @@ if (form) {
     var lang = form.dataset.lang || 'zh';
     var v = function (k) { return (d.get(k) || '').toString().trim(); };
     return {
-      shop: v('shop'), name: v('name'), phone: v('phone'), email: v('email'), area: v('area'),
+      shop: v('shop'), name: v('name'), phone: v('phone'), email: v('email'), area: v('area'), address: v('address'),
+      kind: form.dataset.kind || 'inquiry',
       type: v('type'), volume: v('volume'), message: v('message'), website: v('website'),
       products: d.getAll('product').join('、'), sample: d.get('sample') ? 'yes' : '',
       lang: lang, page: location.href, elapsed: String(Date.now() - openedAt)
@@ -36,8 +37,9 @@ if (form) {
 
   var LANG_LABEL = { zh: '繁體中文', en: 'English', ja: '日本語', ko: '한국어' };
   var subjectOf = function (x) {
-    var s = '【網站詢價】' + [x.shop, x.area, x.type].filter(Boolean).join('｜');
-    if (x.sample) s = '🎁 要試用品 ' + s;
+    var tag = x.kind === 'sample' ? '【試用申請】' : '【網站詢價】';
+    var s = tag + [x.shop, x.area, x.type].filter(Boolean).join('｜');
+    if (x.sample && x.kind !== 'sample') s = '🎁 要試用品 ' + s;
     if (x.lang !== 'zh') s = '🌐 ' + LANG_LABEL[x.lang] + ' ' + s;
     return s;
   };
@@ -52,7 +54,7 @@ if (form) {
 
   var sendFormSubmit = function (x) {
     var payload = {
-      '店名／公司': x.shop, '聯絡人': x.name, '電話': x.phone, 'Email': x.email, '地區': x.area,
+      '店名／公司': x.shop, '聯絡人': x.name, '電話': x.phone, 'Email': x.email, '地區': x.area, '店家地址': x.address,
       '店型': x.type, '每日用量': x.volume, '有興趣產品': x.products,
       '試用品': x.sample ? '需要' : '不需要', '留言': x.message,
       '網站語言': LANG_LABEL[x.lang], '來源頁面': x.page,
