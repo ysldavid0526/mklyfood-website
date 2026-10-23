@@ -133,3 +133,22 @@ if (theme) {
     if (!/^https?:/.test(a.getAttribute('href'))) a.href = a.getAttribute('href') + '?theme=' + theme;
   });
 }
+
+// 磨豆漿時間試算（生豆漿頁）
+(function () {
+  var ids = ['c-min', 'c-new', 'c-days', 'c-wage'];
+  if (!document.getElementById('c-min')) return;
+  var num = function (id) { var v = parseFloat(document.getElementById(id).value); return isFinite(v) && v > 0 ? v : 0; };
+  var fmt = function (n) { return Math.round(n).toLocaleString('zh-TW'); };
+  var calc = function () {
+    var saveMin = Math.max(0, num('c-min') - num('c-new'));
+    var monthH = saveMin * num('c-days') / 60;
+    var yearH = monthH * 12;
+    document.getElementById('r-year').textContent = fmt(yearH);
+    document.getElementById('r-month').textContent = fmt(monthH) + ' 小時';
+    document.getElementById('r-days').textContent = (yearH / 8).toFixed(1) + ' 個工作天／年';
+    document.getElementById('r-money').textContent = '約 ' + fmt(yearH * num('c-wage')) + ' 元／年';
+  };
+  ids.forEach(function (id) { document.getElementById(id).addEventListener('input', calc); });
+  calc();
+})();
