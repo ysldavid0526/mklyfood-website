@@ -64,3 +64,7 @@
 - [English](https://www.mklyfood.com/en/)
 - [日本語](https://www.mklyfood.com/ja/)
 - [한국어](https://www.mklyfood.com/ko/)
+
+## Full text
+
+- [網站全文 llms-full.txt](https://www.mklyfood.com/llms-full.txt)
