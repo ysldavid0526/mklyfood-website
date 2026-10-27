@@ -37,7 +37,7 @@ if (form) {
 
   var LANG_LABEL = { zh: '繁體中文', en: 'English', ja: '日本語', ko: '한국어' };
   var subjectOf = function (x) {
-    var tag = x.kind === 'sample' ? '【試用申請】' : x.kind === 'distributor' ? '【代理申請】' : '【網站詢價】';
+    var tag = x.kind === 'sample' ? '【試用申請】' : x.kind === 'distributor' ? '【代理申請】' : x.kind === 'partner' ? '【廠商合作】' : '【網站詢價】';
     var s = tag + [x.shop, x.area, x.type].filter(Boolean).join('｜');
     if (x.sample && x.kind !== 'sample') s = '🎁 要試用品 ' + s;
     if (x.lang !== 'zh') s = '🌐 ' + LANG_LABEL[x.lang] + ' ' + s;

@@ -163,7 +163,7 @@ p { margin: 0 0 1em; }
 .card-link:hover .more { text-decoration: underline; text-decoration-color: var(--yellow-deep); text-decoration-thickness: 3px; }
 
 .feature { border: 0; box-shadow: none; background: transparent; padding: 0; }
-.feature .num { font-size: 15px; font-weight: 900; color: var(--brown-dark); width: 48px; height: 48px; border-radius: 50%; background: var(--yellow); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+.feature .num, .card-link .num { font-size: 15px; font-weight: 900; color: var(--brown-dark); width: 48px; height: 48px; border-radius: 50%; background: var(--yellow); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
 .feature p { color: var(--muted); }
 
 .product-card { padding: 20px 20px 24px; }
