@@ -452,3 +452,33 @@ html[lang="en"] .hero-title span { white-space: normal; }
 .mkt-key { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: -1px; }
 .mkt-key.done { background: var(--brown-dark); }
 .mkt-key.open { background: #fff; border: 2px solid var(--yellow); }
+
+/* ===== 手機版修正 ===== */
+.slider-dots button { position: relative; }
+.slider-dots button::before { content: ""; position: absolute; inset: -17px -5px; }
+@media (max-width: 560px) {
+  .logo { padding: 10px 0; }
+  .site-header.intl .nt-text { display: none; }
+  .site-header.intl .logo strong { font-size: 15px; letter-spacing: .02em; }
+  .site-header.intl .nav-toggle { padding: 9px 12px; }
+}
+@media (max-width: 430px) { .site-header.intl .lang-menu summary::after { content: ""; } }
+@media (max-width: 340px) { .site-header.intl .logo img { height: 20px; } .site-header.intl .logo { gap: 6px; } .site-header.intl .lang-menu summary { padding: 9px 8px; font-size: 12px; } }
+.sheet .spec td { overflow-wrap: anywhere; }
+.mobile-cta a { display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; }
+/* 矮螢幕：選單可捲動，最後一項不會被底部按鈕蓋住 */
+@media (max-width: 760px) {
+  .nav { max-height: calc(100vh - 64px); max-height: calc(100dvh - 64px); overflow-y: auto; padding-bottom: 76px; }
+  .mobile-cta a { padding: 17px 6px; }
+}
+@media (max-width: 360px) { .mobile-cta a { font-size: 14px; } }
+/* 外銷規格表：手機改成直式卡片，不用左右滑 */
+@media screen and (max-width: 620px) {
+  .sheet-table, .sheet-table tbody, .sheet-table tr, .sheet-table td,
+  .export-table, .export-table tbody, .export-table tr, .export-table td { display: block; width: 100%; }
+  .sheet-table tr:first-child, .export-table tr:first-child { display: none; }
+  .sheet-table tr, .export-table tr { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; margin-bottom: 12px; }
+  .sheet-table td, .export-table td, .sheet-table td:first-child, .sheet-table td:last-child { display: grid; grid-template-columns: 38% 1fr; gap: 10px; padding: 8px 0; min-width: 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+  .sheet-table td:last-child, .export-table td:last-child { border-bottom: 0; }
+  .sheet-table td::before, .export-table td::before { content: attr(data-label); color: var(--muted); font-weight: 500; }
+}
