@@ -463,7 +463,7 @@ html[lang="en"] .hero-title span { white-space: normal; }
   .site-header.intl .nav-toggle { padding: 9px 12px; }
 }
 @media (max-width: 430px) { .site-header.intl .lang-menu summary::after { content: ""; } }
-@media (max-width: 340px) { .site-header.intl .logo img { height: 20px; } .site-header.intl .logo { gap: 6px; } .site-header.intl .lang-menu summary { padding: 9px 8px; font-size: 12px; } }
+@media (max-width: 340px) { .site-header.intl .logo img { height: 20px; } .site-header.intl .logo { gap: 6px; } .site-header.intl .lang-menu summary { padding: 9px 8px; font-size: 12px; } .site-header.intl .logo strong { font-size: 14px; letter-spacing: 0; } }
 .sheet .spec td { overflow-wrap: anywhere; }
 .mobile-cta a { display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; }
 /* 矮螢幕：選單可捲動，最後一項不會被底部按鈕蓋住 */
