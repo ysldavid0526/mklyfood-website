@@ -29,7 +29,7 @@ if (form) {
     return {
       shop: v('shop'), name: v('name'), phone: v('phone'), email: v('email'), area: v('area'), address: v('address'), port: v('port'), certs: v('certs'), coldchain: v('coldchain'),
       kind: form.dataset.kind || 'inquiry',
-      type: v('type'), volume: v('volume'), message: v('message'), website: v('website'),
+      type: v('type'), volume: v('volume'), weekly: v('weekly'), agree: v('agree') ? '已同意' : '', message: v('message'), website: v('website'),
       products: d.getAll('product').join('、'), sample: d.get('sample') ? 'yes' : '',
       lang: lang, page: location.href, elapsed: String(Date.now() - openedAt)
     };
@@ -55,7 +55,7 @@ if (form) {
   var sendFormSubmit = function (x) {
     var payload = {
       '店名／公司': x.shop, '聯絡人': x.name, '電話': x.phone, 'Email': x.email, '地區': x.area, '店家地址': x.address, '目的港／城市': x.port, '需要的認證': x.certs, '冷凍倉儲': x.coldchain,
-      '店型': x.type, '每日用量': x.volume, '有興趣產品': x.products,
+      '店型': x.type, '每日用量': x.volume, '預計每週採購數量': x.weekly, '同意申請須知': x.agree, '有興趣產品': x.products,
       '試用品': x.sample ? '需要' : '不需要', '留言': x.message,
       '網站語言': LANG_LABEL[x.lang], '來源頁面': x.page,
       _subject: subjectOf(x), _template: 'table', _captcha: 'false', _honey: x.website
